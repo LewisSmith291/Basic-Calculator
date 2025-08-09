@@ -14,34 +14,34 @@ h1{
 /* Calculator container */
 .calculator{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     background-color: rgb(61, 61, 61);
     height: 80vw;
     width: 60vw;
 }
 
-/* Direct children to calculator container */
+/* Children to calculator container */
 .calculator *{
-    border: 1px solid black;
     border-radius: 1vw;
+    border-width: 0.5vw;
+    margin: 0.25vw;
+    
 }
 
 .number-input{
     background-color: rgb(255, 255, 255);
     text-align: end;
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 5;
     grid-row-start: 1;
     grid-row-end: 1;
-}
-
-.calc-button{
-    background-color: rgb(187, 187, 187);
-}
-
-#zero-button{
-    grid-column-start: 2;
+    font-size: 6vw;
+    color: black;
+    text-wrap: nowrap;
+    text-align: end;
+    padding-top:2vw;
+    resize: none;
 }
 
 .numpad{
@@ -49,16 +49,24 @@ h1{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 6;
     justify-content: space-around;
 }
 
-.operation-button{
-    grid-column-start: 3;
-    grid-column-end: 3;
+.calc-button{
+    background-color: rgb(187, 187, 187);
     font-size: 4vw;
-    background-color: aqua;
-    text-align: center;
+}
+
+#zero-button{
+    grid-column-start: 2;
+}
+
+.operation-button{
+    grid-column-start: 4;
+    grid-column-end: 4;
+    font-size: 4vw;
+    background-color: rgb(150,150,150);
 }
