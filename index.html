@@ -10,25 +10,31 @@
     <body>
         <h1>Basic Calculator</h1>
         <div class="calculator">
-            <textarea  autocomplete='off' id="num-input" placeholder="0" class="number-input"></textarea>
-            <div class="numpad">
-                <button class="calc-button">9</button>
-                <button class="calc-button">8</button>
-                <button class="calc-button">7</button>
-                <button class="calc-button">6</button>
-                <button class="calc-button">5</button>
-                <button class="calc-button">4</button>
-                <button class="calc-button">3</button>
-                <button class="calc-button">2</button>
-                <button class="calc-button">1</button>
-                <button class="calc-button">.</button>
-                <button id="zero-button" class="calc-button">0</button>
-                <button class="calc-button ">&#9003;</button>
+            <div id="" class="number-input">
+                <div id="previous-input" class="input-previous">-----</div>
+                <div id="num-input" class="user-number">0</div>
             </div>
-            <button class="operation-button">+</button>
-            <button class="operation-button">-</button>
-            <button class="operation-button">x</button>
-            <button class="operation-button">&divide;</button>
+            <div class="numpad">
+                <button id="nine" class="calc-button">9</button>
+                <button id="eight" class="calc-button">8</button>
+                <button id="seven" class="calc-button">7</button>
+                <button id="six" class="calc-button">6</button>
+                <button id="five" class="calc-button">5</button>
+                <button id="four" class="calc-button">4</button>
+                <button id="three" class="calc-button">3</button>
+                <button id="two" class="calc-button">2</button>
+                <button id="one" class="calc-button">1</button>
+                <button id="decimal" class="calc-button">.</button>
+                <button id="zero-button" class="calc-button">0</button>
+                <button id="backspace" class="calc-button ">&#9003;</button>
+            </div>
+            <button id="add" class="operation-button">+</button>
+            <button id="subtract"class="operation-button">-</button>
+            <button id="multiply" class="operation-button">x</button>
+            <button id="divide" class="operation-button">&divide;</button>
+            
+            <button id="clear" class="operation-button">C</button>
+            <button id="equals" class="operation-button">=</button>
         </div>
     </body>
     <script src="script.js"></script>

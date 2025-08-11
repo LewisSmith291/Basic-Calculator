@@ -9,6 +9,7 @@ h1{
     font-size: 4vw;
     font-family: Arial, Helvetica, sans-serif;
     filter: drop-shadow(0.55rem 0.5rem 0.4rem rgba(0, 0, 0, 0.5));
+    margin: 1vh;
 }
 
 /* Calculator container */
@@ -17,8 +18,9 @@ h1{
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     background-color: rgb(61, 61, 61);
-    height: 80vw;
-    width: 60vw;
+    border-radius: 1vw;
+    box-sizing: border-box;
+    width: 90vw;
 }
 
 /* Children to calculator container */
@@ -26,9 +28,9 @@ h1{
     border-radius: 1vw;
     border-width: 0.5vw;
     margin: 0.25vw;
-    
 }
 
+/* User input Container */
 .number-input{
     background-color: rgb(255, 255, 255);
     text-align: end;
@@ -36,12 +38,30 @@ h1{
     grid-column-end: 5;
     grid-row-start: 1;
     grid-row-end: 1;
-    font-size: 6vw;
-    color: black;
-    text-wrap: nowrap;
     text-align: end;
-    padding-top:2vw;
-    resize: none;
+    overflow-x: none;
+    display: flex;
+    flex-direction: column;
+    border: solid 5px grey;
+    min-height: 11vh;
+}
+
+/* Last thing the user input */
+.input-previous{
+    max-height: 3vh;
+    text-align: end;
+    align-content: center;
+    font-size: clamp(1vw, 2vw, 3vw);
+    padding-right: 2vw;
+}
+
+/* Expression the user is currently inputting */
+.user-number{
+    max-height: 5vh;
+    text-align: end;
+    align-content: center;
+    font-size: clamp(3vw, 3vw, 5vw);
+    padding-right: 2vw;
 }
 
 .numpad{
@@ -57,16 +77,26 @@ h1{
 
 .calc-button{
     background-color: rgb(187, 187, 187);
-    font-size: 4vw;
+    font-size: clamp(3vw, 3vw, 5vw)
 }
 
 #zero-button{
     grid-column-start: 2;
 }
 
+#clear{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#equals{
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
 .operation-button{
     grid-column-start: 4;
     grid-column-end: 4;
-    font-size: 4vw;
+    font-size: clamp(3vw, 3vw, 5vw);
     background-color: rgb(150,150,150);
 }
