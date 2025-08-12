@@ -53,6 +53,7 @@ h1{
     align-content: center;
     font-size: clamp(1vw, 2vw, 3vw);
     padding-right: 2vw;
+    min-height: 3vh;
 }
 
 /* Expression the user is currently inputting */
