@@ -1,44 +1,37 @@
+// Input text
 const previousInput = document.getElementById("previous-input")
 const numberInput = document.getElementById("num-input");
-
-const equalsButton = document.getElementById("equals");
-const decimalButton = document.getElementById("decimal");
-const clearButton = document.getElementById("clear");
-const backspaceButton = document.getElementById("backspace");
-
+// Operation assignments
+const OperationArray = ["-", "+", "/", "*", "=", "Enter", "c"];
 const addButton = document.getElementById("add");
 const minusButton = document.getElementById("subtract");
 const multiplyButton = document.getElementById("multiply");
 const divideButton = document.getElementById("divide");
-
-const OperationArray = ["-", "+", "/", "*", "=", "Enter"];
-
-equalsButton.addEventListener("click", equalsClick);
 minusButton.addEventListener("click", minusClick);
 addButton.addEventListener("click", addClick);
 multiplyButton.addEventListener("click",multiplyClick);
 divideButton.addEventListener("click", divideClick);
+// Other calculator buttons
+const equalsButton = document.getElementById("equals");
+const decimalButton = document.getElementById("decimal");
+const clearButton = document.getElementById("clear");
+const backspaceButton = document.getElementById("backspace");
+equalsButton.addEventListener("click", equalsClick);
 clearButton.addEventListener("click", clearClick);
 backspaceButton.addEventListener("click", backspaceClick);
+decimalButton.addEventListener("click", decimalClick);
 
 var inputNumber = 0;
 var previousExpression = 0;
-
+const maxDigits = 15;
 
 
 document.body.addEventListener("keydown", (event) => {
+    // Key that the user presses
     let Key = event.key;
-    /*
-    // If number input
-    if (checkIfNumber(Key) && lengthExcludingComma(numberInput.innerHTML) < 15){
-        if (lengthExcludingComma(numberInput.innerHTML) % 3 == 0 && numberInput.innerHTML.length != 0){
-            numberInput.innerHTML += ",";
-        }
-        numberInput.innerHTML += Key;
-        return;
-    }
-    */
-    if (checkIfNumber(Key) && inputNumber.toString().length < 15){
+    // If the key is a number and the calculator input has not reached max digits
+    if (checkIfNumber(Key) && inputNumber.toString().length < maxDigits){
+        // Add key to end of number and convert format to using commas
         inputNumber = Number(inputNumber.toString() + Key);
         numberInput.innerHTML = inputNumber.toLocaleString("en-US");
     }
@@ -46,35 +39,42 @@ document.body.addEventListener("keydown", (event) => {
     // If operation key input
     if (checkIfOperation(Key)){
         switch (Key) {
-
+            // Equals hotkey
             case "Enter":
                 equalsButton.click();
                 break;
-
+            // Minus hotkey
             case "-":
                 minusButton.click();
                 break;
-
+            // Minus hotkey
             case "+":
                 addButton.click();
                 break;
-
+            // Add hotkey
             case "*":
                 multiplyButton.click();
                 break;
-            
+            // Multiply hotkey
             case "/": 
                 divideButton.click();
                 break;
-
+            // Divide hotkey
             case ".": 
                 decimalButton.click();
+                break;
+            // Clear hotkey
+            case "c":
+                clearButton.click();
                 break;
         }
         return;
     }
     if (Key == "Backspace"){
         backspaceButton.click();
+    }
+    if (Key == "."){
+        decimalButton.click();
     }
 });
 
@@ -106,21 +106,18 @@ function clearClick(){
 
 function backspaceClick(){
     let len = inputNumber.toString().length
-    
-    /*
-
-    let len = numberInput.innerHTML.length;
-    if (numberInput.innerHTML[len-2] == ","){
-        numberInput.innerHTML = numberInput.innerHTML.slice(0, len-1);
-        len = numberInput.innerHTML.length;
+    // Take off last digit of number
+    let newFloat = parseFloat(inputNumber.toString().slice(0,len-1));
+    // If number is empty, change to 0
+    if (isNaN(newFloat)){
+        newFloat = 0;
     }
-    numberInput.innerHTML = numberInput.innerHTML.slice(0, len-1);
+    inputNumber = newFloat;
+    numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+}
 
-    if (numberInput.innerHTML == ""){
-        numberInput.innerHTML = "0";
-    }
+function decimalClick(){
 
-    */
 }
 
 function calculate(oldExpr, newExpr){
@@ -131,14 +128,6 @@ function trackHistory(previous, current){
 
 }
 
-function lengthExcludingComma(input){
-    let splitArray = input.split(",");
-    let newString = "";
-    for (let i = 0; i < splitArray.length; i++){
-        newString += splitArray[i];
-    }
-    return newString.length;
-}
 
 function checkIfOperation(input){
     if (OperationArray.indexOf(input) == -1) {
