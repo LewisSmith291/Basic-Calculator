@@ -22,17 +22,27 @@ backspaceButton.addEventListener("click", backspaceClick);
 decimalButton.addEventListener("click", decimalClick);
 
 var inputNumber = 0;
-var previousExpression = 0;
+var previousOperation = "";
+var previousNumber = 0;
 const maxDigits = 15;
 
+var waitingForDecimal = false;
 
+// Adding event listener to the body of the page so when the user inputs 
+// a key with anything selected on the page, the key gets registered.
 document.body.addEventListener("keydown", (event) => {
     // Key that the user presses
     let Key = event.key;
     // If the key is a number and the calculator input has not reached max digits
     if (checkIfNumber(Key) && inputNumber.toString().length < maxDigits){
         // Add key to end of number and convert format to using commas
-        inputNumber = Number(inputNumber.toString() + Key);
+        if (waitingForDecimal){
+            inputNumber = Number(inputNumber.toString() + "."+Key);
+            waitingForDecimal = false;
+        }
+        else {
+            inputNumber = Number(inputNumber.toString() + Key);
+        }
         numberInput.innerHTML = inputNumber.toLocaleString("en-US");
     }
 
@@ -57,6 +67,7 @@ document.body.addEventListener("keydown", (event) => {
                 break;
             // Multiply hotkey
             case "/": 
+                event.preventDefault();
                 divideButton.click();
                 break;
             // Divide hotkey
@@ -79,27 +90,45 @@ document.body.addEventListener("keydown", (event) => {
 });
 
 function equalsClick(){
-    previousInput.innerHTML = numberInput.innerHTML;
+    updateCurrent("");
+    inputNumber = calculate(previousNumber, "equals", inputNumber);
+    numberInput.innerHTML = inputNumber;
 }
 
 function minusClick(){
-    previousInput.innerHTML = numberInput.innerHTML;
+    updateCurrent("-");
+    calculate(previousNumber, "-", inputNumber);
 }
 
 function addClick(){
-    previousInput.innerHTML = numberInput.innerHTML;
+    updateCurrent("+");
+    calculate(previousNumber, "+", inputNumber);
 }
 
 function multiplyClick(){
-    previousInput.innerHTML = numberInput.innerHTML;
+    updateCurrent("&times;");
+    calculate(previousNumber, "*", inputNumber);
 }
 
 function divideClick(){
-    previousInput.innerHTML = numberInput.innerHTML;
+    updateCurrent("&divide;");
+    calculate(previousNumber, "/", inputNumber);
 }
 
 function clearClick(){
+    previousNumber = 0;
     previousInput.innerHTML = "";
+    inputNumber = 0;
+    numberInput.innerHTML = inputNumber;
+}
+
+// Takes a parameter which is used as the string to add on the end of current number. 
+function updateCurrent(operation){
+    numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+    previousNumber = inputNumber;
+    numberInput.innerHTML += " " + operation;
+    previousOperation = operation;
+    previousInput.innerHTML = numberInput.innerHTML;
     inputNumber = 0;
     numberInput.innerHTML = inputNumber;
 }
@@ -117,17 +146,35 @@ function backspaceClick(){
 }
 
 function decimalClick(){
-
+    waitingForDecimal = true;
+    numberInput.innerHTML += ".";
 }
 
-function calculate(oldExpr, newExpr){
+function calculate(oldNum, operation, newNum){
+    let output = 0;
+    let operationString = " ";
+    switch (operation){
+        case "add":
+            operationString = "+";
+            break;
+        case "minus":
+            operationString = "-";
+            break;
+        case "multiply":
+            operationString = "&multiply;";
+            break;
+        case "divide":
+            operationString = "&divide;";
+            break;
+    }
+    output = eval(oldNum + operation + newNum);
 
+    return output;
 }
 
 function trackHistory(previous, current){
 
 }
-
 
 function checkIfOperation(input){
     if (OperationArray.indexOf(input) == -1) {
