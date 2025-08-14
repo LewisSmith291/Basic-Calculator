@@ -31,6 +31,10 @@ var waitingForDecimal = false;
 // Adding event listener to the body of the page so when the user inputs 
 // a key with anything selected on the page, the key gets registered.
 document.body.addEventListener("keydown", (event) => {
+    pressKey(event);
+});
+
+function pressKey(event){
     // Key that the user presses
     let Key = event.key;
     // If the key is a number and the calculator input has not reached max digits
@@ -43,6 +47,11 @@ document.body.addEventListener("keydown", (event) => {
         else {
             inputNumber = Number(inputNumber.toString() + Key);
         }
+        numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+    }
+    else if (checkIfNumber(Key) && inputNumber.toString().indexOf("e") != -1){
+        clearClick();
+        inputNumber = Number(inputNumber.toString() + Key);
         numberInput.innerHTML = inputNumber.toLocaleString("en-US");
     }
 
@@ -87,50 +96,66 @@ document.body.addEventListener("keydown", (event) => {
     if (Key == "."){
         decimalButton.click();
     }
-});
+}
 
 function equalsClick(){
-    updateCurrent("");
-    inputNumber = calculate(previousNumber, "equals", inputNumber);
+    // Change output text to use multiply and divide symbols
+    if (previousOperation == "*" || previousOperation == "/"){
+        if (previousOperation == "*") previousInput.innerHTML = previousNumber + " &times; " + inputNumber + " =";
+        else if (previousOperation = "/") previousInput.innerHTML = previousNumber + " &divide; " + inputNumber + " =";
+    }
+    else if (previousOperation == ""){
+        return;
+    }
+    else {
+        previousInput.innerHTML = previousNumber + " " + previousOperation + " " + inputNumber + " =";
+    }
+    console.log(previousNumber + ", " + previousOperation + ", "+ inputNumber);
+    inputNumber = eval(previousNumber + previousOperation + inputNumber);
     numberInput.innerHTML = inputNumber;
 }
 
-function minusClick(){
-    updateCurrent("-");
-    calculate(previousNumber, "-", inputNumber);
+function operationClick(operation){
+    previousNumber = inputNumber;
+    previousOperation = "+";
+    previousInput.innerHTML = previousNumber + " " + previousOperation;
+    inputNumber = 0;
 }
 
 function addClick(){
-    updateCurrent("+");
-    calculate(previousNumber, "+", inputNumber);
+    previousNumber = inputNumber;
+    previousOperation = "+";
+    previousInput.innerHTML = previousNumber + " " + previousOperation;
+    inputNumber = 0;
+}
+
+function minusClick(){
+    previousNumber = inputNumber;
+    previousOperation = "-";
+    previousInput.innerHTML = previousNumber + " " + previousOperation;
+    inputNumber = 0;
 }
 
 function multiplyClick(){
-    updateCurrent("&times;");
-    calculate(previousNumber, "*", inputNumber);
+    previousNumber = inputNumber;
+    previousOperation = "*";
+    previousInput.innerHTML = previousNumber + " &times;";
+    inputNumber = 0;
 }
 
 function divideClick(){
-    updateCurrent("&divide;");
-    calculate(previousNumber, "/", inputNumber);
+    previousNumber = inputNumber;
+    previousOperation = "/";
+    previousInput.innerHTML = previousNumber + " &divide;";
+    inputNumber = 0;
 }
 
 function clearClick(){
     previousNumber = 0;
     previousInput.innerHTML = "";
     inputNumber = 0;
-    numberInput.innerHTML = inputNumber;
-}
-
-// Takes a parameter which is used as the string to add on the end of current number. 
-function updateCurrent(operation){
-    numberInput.innerHTML = inputNumber.toLocaleString("en-US");
-    previousNumber = inputNumber;
-    numberInput.innerHTML += " " + operation;
-    previousOperation = operation;
-    previousInput.innerHTML = numberInput.innerHTML;
-    inputNumber = 0;
-    numberInput.innerHTML = inputNumber;
+    numberInput.innerHTML = 0;
+    previousOperation = "";
 }
 
 function backspaceClick(){
@@ -150,32 +175,6 @@ function decimalClick(){
     numberInput.innerHTML += ".";
 }
 
-function calculate(oldNum, operation, newNum){
-    let output = 0;
-    let operationString = " ";
-    switch (operation){
-        case "add":
-            operationString = "+";
-            break;
-        case "minus":
-            operationString = "-";
-            break;
-        case "multiply":
-            operationString = "&multiply;";
-            break;
-        case "divide":
-            operationString = "&divide;";
-            break;
-    }
-    output = eval(oldNum + operation + newNum);
-
-    return output;
-}
-
-function trackHistory(previous, current){
-
-}
-
 function checkIfOperation(input){
     if (OperationArray.indexOf(input) == -1) {
         return false;
@@ -184,7 +183,6 @@ function checkIfOperation(input){
 }
 
 function checkIfNumber(input){
-
     if (isNaN(parseInt(input))){
         return false;
     }
