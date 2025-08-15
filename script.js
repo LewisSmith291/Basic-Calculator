@@ -21,11 +21,11 @@ clearButton.addEventListener("click", clearClick);
 backspaceButton.addEventListener("click", backspaceClick);
 decimalButton.addEventListener("click", decimalClick);
 
+
 var inputNumber = 0;
 var previousOperation = "";
 var previousNumber = 0;
 const maxDigits = 15;
-
 var waitingForDecimal = false;
 
 // Adding event listener to the body of the page so when the user inputs 
@@ -35,8 +35,15 @@ document.body.addEventListener("keydown", (event) => {
 });
 
 function pressKey(event){
+    let key;
+    // If called by numerical button, 
+    if (typeof event == "string"){
+        Key = event;
+    }
+    else {
+        Key = event.key;
+    }
     // Key that the user presses
-    let Key = event.key;
     // If the key is a number and the calculator input has not reached max digits
     if (checkIfNumber(Key) && inputNumber.toString().length < maxDigits){
         // Add key to end of number and convert format to using commas
@@ -159,15 +166,23 @@ function clearClick(){
 }
 
 function backspaceClick(){
-    let len = inputNumber.toString().length
-    // Take off last digit of number
-    let newFloat = parseFloat(inputNumber.toString().slice(0,len-1));
+    console.log(inputNumber.toString() + " | " + numberInput.innerHTML);
+    let len = numberInput.innerHTML.toString().length;
+    numberInput.innerHTML = numberInput.innerHTML.toString().slice(0,len-1);
+    if (numberInput.innerHTML[-1] == "."){
+        let len = numberInput.innerHTML.toString().length;
+        numberInput.innerHTML = numberInput.innerHTML.toString().slice(0,len-1);
+    }
     // If number is empty, change to 0
     if (isNaN(newFloat)){
         newFloat = 0;
     }
     inputNumber = newFloat;
     numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+
+
+
+
 }
 
 function decimalClick(){
