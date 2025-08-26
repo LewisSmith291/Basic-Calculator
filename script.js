@@ -178,20 +178,6 @@ function backspaceClick(){
     let removedChar = numberInput.innerHTML[-1];
     removeLastInner();
 
-    // If next char is decimal
-    if (numberInput.innerHTML[-1] == ".") {
-        inputNumber = Number(numberInput.innerHTML + "0");
-    }
-
-
-    numberInput.innerHTML = inputNumber.toLocaleString("en-US");
-
-
-
-
-
-
-    /*
 
     // If char removed is a number
     if (removedChar != "."){
@@ -220,7 +206,7 @@ function backspaceClick(){
 
     //console.log(numberInput.innerHTML);
     console.log(inputNumber);
-    */
+    
 }
 
 function removeLastInner(){
