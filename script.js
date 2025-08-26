@@ -26,7 +26,9 @@ var inputNumber = 0;
 var previousOperation = "";
 var previousNumber = 0;
 const maxDigits = 15;
+// Booleans used for input logic
 var waitingForDecimal = false;
+var decimalIsLast = false;
 
 // Adding event listener to the body of the page so when the user inputs 
 // a key with anything selected on the page, the key gets registered.
@@ -165,27 +167,70 @@ function clearClick(){
     previousOperation = "";
 }
 
+function backspaceClick1(){
+
+}
+
+
+
 function backspaceClick(){
-    console.log(inputNumber.toString() + " | " + numberInput.innerHTML);
-    let len = numberInput.innerHTML.toString().length;
-    numberInput.innerHTML = numberInput.innerHTML.toString().slice(0,len-1);
-    if (numberInput.innerHTML[-1] == "."){
-        let len = numberInput.innerHTML.toString().length;
-        numberInput.innerHTML = numberInput.innerHTML.toString().slice(0,len-1);
+    // Remove last char from string
+    let removedChar = numberInput.innerHTML[-1];
+    removeLastInner();
+
+    // If next char is decimal
+    if (numberInput.innerHTML[-1] == ".") {
+        inputNumber = Number(numberInput.innerHTML + "0");
     }
-    // If number is empty, change to 0
-    if (isNaN(newFloat)){
-        newFloat = 0;
-    }
-    inputNumber = newFloat;
+
+
     numberInput.innerHTML = inputNumber.toLocaleString("en-US");
 
 
 
 
+
+
+    /*
+
+    // If char removed is a number
+    if (removedChar != "."){
+        // If next char is a number
+        if (numberInput.innerHTML[-1] != ".") {
+            inputNumber = Number(numberInput.innerHTML);
+            numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+            console.log("a");
+        }
+        // If next char is a decimal
+        else {
+            inputNumber = Number(numberInput.innerHTML);
+            //decimalIsLast = true;
+            console.log("b");
+        }
+    } 
+    // If char removed is a decimal
+    // Next char will be number
+    else {
+        inputNumber = Number(numberInput.innerHTML);
+        numberInput.innerHTML = inputNumber.toLocaleString("en-US");
+        decimalIsLast = false;
+        waitingForDecimal = false;
+        console.log("c");
+    }
+
+    //console.log(numberInput.innerHTML);
+    console.log(inputNumber);
+    */
 }
 
+function removeLastInner(){
+    numberInput.innerHTML = numberInput.innerHTML.slice(0,numberInput.innerHTML.length-1);
+}
+
+
 function decimalClick(){
+    // Dont allow multiple decimals
+    if (numberInput.innerHTML.toString().indexOf(".") != -1) return;
     waitingForDecimal = true;
     numberInput.innerHTML += ".";
 }
